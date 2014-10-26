@@ -81,7 +81,7 @@ doxygen_build=$me/build/kofee/doxygen
     mkdir -p $doxygen_build
     mkdir -p $doxygen_dest
 
-    git svn clone http://svn.kofee.org/svn/qtcreator-doxygen/trunk $doxygen_src
+    svn co http://svn.kofee.org/svn/qtcreator-doxygen/trunk $doxygen_src
     wget http://dev.kofee.org/attachments/download/87/qtcreator-3.2.2.patch -P $doxygen_src
     
     cd $doxygen_src
@@ -93,7 +93,7 @@ doxygen_build=$me/build/kofee/doxygen
 cd $doxygen_src
 qmake QTC_SOURCE_DIR=$qtcreator_src \
 QTC_BUILD_DIR=$doxygen_build \
-LIBSROOT=$qtcreator_install/lib \
+LIBSROOT=$qtcreator_build/lib \
 DEST=$doxygen_dest
 make -j$jlevel
 
