@@ -58,20 +58,6 @@ qmake -r $qtcreator_src/qtcreator.pro
 make -j$jlevel
 
 
-# XMLtree plugin
-xmltree_src=$me/plugins/gitorious/xmltree
-xmltree_dest=$qtcreator_install/lib/qtcreator/plugins/XmlTree
-xmltree_build=$me/build/gitorious/xmltree
-
-[ ! -e $xmltree_src ] && {
-    mkdir -p $xmltree_dest
-    mkdir -p $xmltree_build
-
-    git clone https://gitorious.org/qt-creator-xml-tree-plugin/qt-creator-xml-tree-plugin.git $xmltree_src
-    
-}
-
-
 # QtCreator-Doxygen
 doxygen_src=$me/plugins/kofee/doxygen
 doxygen_dest=$qtcreator_install/lib/qtcreator/plugins/Kofee
