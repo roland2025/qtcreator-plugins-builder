@@ -24,7 +24,9 @@ done
 
 me=$PWD
 
-[[ $qtcbranch ]] || {
+[[ $qtcbranch ]] && {
+    echo "QtCreator $qtcbranch based on Qt $qt_ver"
+} || {
 # No version set, get current QtCreator version
     $qtcreator_install/bin/qtcreator.sh -version > version.txt 2>&1
     qtcreator_version_txt=`grep 'Qt Creator' version.txt | grep 'based on'`
@@ -36,13 +38,41 @@ me=$PWD
     qtversion=${qt_ver:0:3}
 }
 
+[[ $jlevel ]] || jlevel=$((1 + `getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1`))
+
+echo "Threads: $jlevel"
+
 export PATH="$qtsdk_install/$qtversion/gcc_64/bin/:$PATH"
+
+# QtCreator
+qtcreator_build=$me/build/qtcreator
 
 [[ $qtcreator_src ]] || qtcreator_src=$me/qt-creator-src
 [ ! -e $qtcreator_src ] && {
-    git clone --single-branch --branch $qtcbranch --recursive https://git.gitorious.org/qt-creator/qt-creator.git $qtcreator_src
+    git clone --branch $qtcbranch --recursive https://git.gitorious.org/qt-creator/qt-creator.git $qtcreator_src
+    mkdir -p $qtcreator_build
 }
 
+cd $qtcreator_build
+qmake -r $qtcreator_src/qtcreator.pro
+make -j$jlevel
+
+
+# XMLtree plugin
+xmltree_src=$me/plugins/gitorious/xmltree
+xmltree_dest=$qtcreator_install/lib/qtcreator/plugins/XmlTree
+xmltree_build=$me/build/gitorious/xmltree
+
+[ ! -e $xmltree_src ] && {
+    mkdir -p $xmltree_dest
+    mkdir -p $xmltree_build
+
+    git clone https://gitorious.org/qt-creator-xml-tree-plugin/qt-creator-xml-tree-plugin.git $xmltree_src
+    
+}
+
+
+# QtCreator-Doxygen
 doxygen_src=$me/plugins/kofee/doxygen
 doxygen_dest=$qtcreator_install/lib/qtcreator/plugins/Kofee
 doxygen_build=$me/build/kofee/doxygen
