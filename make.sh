@@ -8,7 +8,7 @@ qtversion=5.3
 qtsdk_install=~/Qt
 qtcreator_install=$qtsdk_install/Tools/QtCreator
 
-while getopts "sb:c:q:i:v:" optname; do
+while getopts "sb:c:q:i:v:j:" optname; do
     case "$optname" in
         b) qtcbranch=$OPTARG ;;
         s) doDownload=1 ;;
@@ -16,6 +16,7 @@ while getopts "sb:c:q:i:v:" optname; do
         q) qtsdk_install=$OPTARG ;;
         i) qtcreator_install=$OPTARG ;;
         v) qtversion=$OPTARG ;;
+        j) jlevel=$OPTARG ;;
     esac
 done
 
@@ -64,7 +65,7 @@ qmake QTC_SOURCE_DIR=$qtcreator_src \
 QTC_BUILD_DIR=$doxygen_build \
 LIBSROOT=$qtcreator_install/lib \
 DEST=$doxygen_dest
-make
+make -j$jlevel
 
 cd $me
 
