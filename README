@@ -1,0 +1,29 @@
+    Download and Build QtCreator Doxygen plugin from source
+
+    Autodetect QtCreator version from QtSDK '~/Qt'
+
+run 'make.sh -s' to start
+
+    Change QtCreator version (default: auto-detected)
+ -b 3.2.2
+    
+    Path to QtCreator sources (default: ./qt-creator-src/)
+        If directory doesn't exist, clone from repository.
+ -c /path/to/qtcreator/src
+
+    QtSDK install path (default: SDK_PATH = ~/Qt)
+ -q /path/to/qt/sdk/install
+
+    Path to QtCreator installation (default: $SDK_PATH/Tools/QtCreator)
+ -i /path/to/qtcreator/install
+
+    Qt Version (default: 5.3)
+ -v 5.3
+
+    Start download and make
+ -s
+
+    To install possible missing packages (Ubuntu/Debian):
+sudo apt-get install git-core git-svn
+
+# Roland Uuesoo <rolandu@gmail.com> 2014
